@@ -1,51 +1,62 @@
 # Contacts
 
-## The contact object
+Contact is a person or business that is the ultimate beneficiary of a payment.
+
+Contact data includes three data blocks.
+
+#### 1\) General Data <a id="recipient-accounts-create-1-general-data"></a>
+
+* Contact full name
+* Legal type \(private/business\)
+* Currency
+
+#### 2\) Bank account data <a id="recipient-accounts-create-2-bank-account-data"></a>
+
+Bank account details vary wildly, dependent on the target currency of the payment. For example:
+
+* GBP — sort code and account number
+* BGN, CHF, DKK, EUR, GEL, GBP, NOK, PKR, PLN, RON, SEK — IBAN
+* USD — routing number, account number, account type
+* INR — IFSC code, account number
+* etc.
+
+When creating contact, please note that the following general rules should be applied to "accountHolderName" field:
+
+* Personal Contacts must have full names. You must include both a first and last name, and both should be more than one character. Acceptable characters include:`[A-Za-zÀ-ÖØ-öø-ÿ].`
+* Business names must be in full, but can be just a single name. The full name cannot be just a single character but can be made up of a set of single characters. Business names can include numbers and special characters.
+* In general the following regex describes permitted characters for a name: `[0-9A-Za-zÀ-ÖØ-öø-ÿ-_()'*,.\s]`.
+
+Contact objects will vary depending on type \(currency, business/personal etc\). A GBP example is provided here.
+
+## Contact \(UK\)
+
+### Attributes
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| id | Unique identifier for the object. | string |
-| type | Contact type: `individual` or `company` | enum |
-| name | Full name of the business or individual | string |
-| email | Optional email address of the contact. | email |
-| telephone | Optional phone number of the contact. | International phone number, starting with `+` |
+| contactId | Unique identifier for the object. | string |
+| recipient.tag | Contact type: `private` or `company` | string |
+| recipient.name | Full name of the business or individual | string |
+| details.accountNumber | Bank account number | string |
+| details.sortCode | Sort code | string |
 | address.line1 | Optional address of the contact.  | string |
 | address.line2 | Optional address of the contact. | string |
 | address.city | Optional city, district, town or village of the contact. | string |
 | address.country | Optional two-letter country code of the contact. | 2-letter ISO code |
-| bank\_name | Name of the contact's bank. | string |
-| bank\_country | Two-letter ISO code representing the country the contact's bank account is located. | 2-letter ISO code |
-| currency | Three-letter ISO code for the currency of the contact's bank account. | 3-letter ISO code |
+| details.bankName | Name of the contact's bank. | string |
+| details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | 2-letter ISO code |
+| details.currency | Three-letter ISO code for the currency of the contact's bank account. | 3-letter ISO code |
 
-#### Required fields for UK GBP accounts:
-
-| Field | Description | Format |
-| :--- | :--- | :--- |
-| account\_no | Bank account number | string |
-| sort\_code | Sort code | string |
-
-#### Required fields for IBAN countries:
+#### Required fields for UK \(GBP\) contact request:
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| iban | IBAN | string |
-| bic | BIC | string |
+| recipient.name | Full name of the business or individual | string |
+| recipient.tag | Contact type: `private` or `company` | string |
+| details.accountNumber | Bank account number | string |
+| details.sortCode | Sort code | string |
 
-#### Required fields for US USD accounts:
-
-| Field | Description | Format |
-| :--- | :--- | :--- |
-| account\_no | Bank account number | string |
-| routing\_number | Routing transit number | string |
-
-#### Required fields for SWIFT:
-
-| Field | Description | Format |
-| :--- | :--- | :--- |
-| account\_no | Bank account number | string |
-| bic | BIC | string |
-
-{% api-method method="post" host="" path="" %}
+{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts/add" %}
 {% api-method-summary %}
 Create contact
 {% endapi-method-summary %}
@@ -56,11 +67,25 @@ Create contact
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
 
 {% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="details" type="object" required=true %}
+The account details of the contact
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="currency" type="string" required=true %}
+The target currency of contact's account
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="recipient" type="object" required=true %}
+The type of contact, \('Personal \| Business'\) and Name.
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
 {% endapi-method-request %}
 
 {% api-method-response %}
@@ -77,7 +102,7 @@ Create contact
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="" path="" %}
+{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/list/:id" %}
 {% api-method-summary %}
 Retrieve contact by ID
 {% endapi-method-summary %}
@@ -88,11 +113,17 @@ Get contact info by ID.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
 
 {% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endapi-method-headers %}
+
+{% api-method-query-parameters %}
+{% api-method-parameter name="contactId" type="string" required=false %}
+The id of the contact you are requesting
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
 {% endapi-method-request %}
 
 {% api-method-response %}
@@ -109,7 +140,7 @@ Get contact info by ID.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="post" host="" path="" %}
+{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts/update" %}
 {% api-method-summary %}
 Update contact
 {% endapi-method-summary %}
@@ -120,11 +151,29 @@ Update contact information.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
 
 {% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="contactId" type="string" required=true %}
+The Id of the contact to update
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="details" type="object" required=false %}
+The account details of the contact
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="currency" type="string" required=false %}
+The target currency of the contact's account
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="recipient" type="object" required=false %}
+The type of contact \('Personal'  \| 'Business'\) and Name
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
 {% endapi-method-request %}
 
 {% api-method-response %}
@@ -141,7 +190,7 @@ Update contact information.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="delete" host="" path="" %}
+{% api-method method="delete" host="https://app.helloscale.co" path="/v1/contacts/delete" %}
 {% api-method-summary %}
 Delete contact
 {% endapi-method-summary %}
@@ -152,11 +201,17 @@ Deletes a contact.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
 
 {% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endapi-method-headers %}
+
+{% api-method-query-parameters %}
+{% api-method-parameter name="contactId" type="string" required=false %}
+The id of the contact to delete.
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
 {% endapi-method-request %}
 
 {% api-method-response %}
@@ -173,7 +228,7 @@ Deletes a contact.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="" path="" %}
+{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/list/all" %}
 {% api-method-summary %}
 List contacts
 {% endapi-method-summary %}
@@ -184,11 +239,11 @@ Fetch a list of all contacts.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
 
 {% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endapi-method-headers %}
 {% endapi-method-request %}
 
 {% api-method-response %}
