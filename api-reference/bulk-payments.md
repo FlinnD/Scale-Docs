@@ -15,7 +15,7 @@ Funds are sent via Open Banking to a Scale wallet associated with your account, 
 3. Submit a Bulk Payment for approval
 4. Approve a Bulk Payment
 5. Execute the Bulk Payment by initiating an Open Banking payment
-6. Confim the results of the Bulk Payment
+6. Confirm the results of the Bulk Payment
 
 ## BulkPayment
 
