@@ -22,5 +22,5 @@ If a permission is not granted when using an API key, the API will return a HTTP
 
 ## Expiration
 
-API keys do not expire, but can be rotated or deleted within the dashboard \(required 2FA\).
+API keys do not expire, but can be rotated or deleted within the Scale dashboard \(required 2FA\).
 
