@@ -35,11 +35,11 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 | Field | Description | Format |
 | :--- | :--- | :--- |
 | contactId | Unique identifier for the object. | string |
-| recipient.tag | Contact type: `private` or `business` | string |
-| recipient.accountHolderName | Full name of the contact: `private` | string |
-| recipient.businessName | Full name of the contact: `business` | string |
-| details.accountNumber | Bank account number | string |
-| details.sortCode | Sort code | string |
+| type | Contact type: `private` or `business` | string |
+| accountHolderName | Full name of the contact: `private` | string |
+| businessName | Full name of the contact: `business` | string |
+| details.accountNumber | Bank account number \(UK\) | string |
+| details.sortCode | Sort code \(UK\) | string |
 | address.line1 | Optional address of the contact.  | string |
 | address.line2 | Optional address of the contact. | string |
 | address.city | Optional city, district, town or village of the contact. | string |
@@ -48,13 +48,16 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 | details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | 2-letter ISO code |
 | details.currency | Three-letter ISO code for the currency of the contact's bank account. | 3-letter ISO code |
 
-#### Required fields for UK \(GBP\) contact request:
+#### Example fields for UK \(GBP\) contact request:
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| recipient | Full name of the business or individual | object |
+| accountHolderName | Full name of the individual | string |
+| businessName | Full name of the business | string |
+| type | Contact type: `private` or `business` | string |
 | details.accountNumber | Bank account number | string |
 | details.sortCode | Sort code | string |
+| details.currency | Three-letter ISO code for the currency of the contact's bank account. | string |
 
 {% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts/add" %}
 {% api-method-summary %}
@@ -82,8 +85,8 @@ The account details of the contact
 The target currency of contact's account
 {% endapi-method-parameter %}
 
-{% api-method-parameter name="recipient" type="object" required=true %}
-Full name of contact, \('Personal \| Business'\).
+{% api-method-parameter name="accountHolderName" type="string" required=true %}
+Full name of contact, 'Personal'.
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
