@@ -12,7 +12,7 @@ Contact data includes three data blocks.
 
 #### 2\) Bank account data <a id="recipient-accounts-create-2-bank-account-data"></a>
 
-Bank account details vary wildly, dependent on the target currency of the payment. For example:
+Bank account details vary widely and depend on the target currency of the payment. For example:
 
 * GBP — sort code and account number
 * BGN, CHF, DKK, EUR, GEL, GBP, NOK, PKR, PLN, RON, SEK — IBAN
@@ -20,9 +20,9 @@ Bank account details vary wildly, dependent on the target currency of the paymen
 * INR — IFSC code, account number
 * etc.
 
-When creating contact, please note that the following general rules should be applied to "accountHolderName" field:
+When creating contact, please note that the following general rules should be applied to the _recipients_ field:
 
-* Personal Contacts must have full names. You must include both a first and last name, and both should be more than one character. Acceptable characters include:`[A-Za-zÀ-ÖØ-öø-ÿ].`
+* Private contacts must have full names. You must include both a first and last name, and both should be more than one character. Acceptable characters include:`[A-Za-zÀ-ÖØ-öø-ÿ].`
 * Business names must be in full, but can be just a single name. The full name cannot be just a single character but can be made up of a set of single characters. Business names can include numbers and special characters.
 * In general the following regex describes permitted characters for a name: `[0-9A-Za-zÀ-ÖØ-öø-ÿ-_()'*,.\s]`.
 
@@ -35,8 +35,9 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 | Field | Description | Format |
 | :--- | :--- | :--- |
 | contactId | Unique identifier for the object. | string |
-| recipient.tag | Contact type: `private` or `company` | string |
-| recipient.name | Full name of the business or individual | string |
+| recipient.tag | Contact type: `private` or `business` | string |
+| recipient.accountHolderName | Full name of the contact: `private` | string |
+| recipient.businessName | Full name of the contact: `business` | string |
 | details.accountNumber | Bank account number | string |
 | details.sortCode | Sort code | string |
 | address.line1 | Optional address of the contact.  | string |
@@ -51,8 +52,7 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| recipient.name | Full name of the business or individual | string |
-| recipient.tag | Contact type: `private` or `company` | string |
+| recipient | Full name of the business or individual | object |
 | details.accountNumber | Bank account number | string |
 | details.sortCode | Sort code | string |
 
@@ -83,7 +83,7 @@ The target currency of contact's account
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="recipient" type="object" required=true %}
-The type of contact, \('Personal \| Business'\) and Name.
+Full name of contact, \('Personal \| Business'\).
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
@@ -171,7 +171,7 @@ The target currency of the contact's account
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="recipient" type="object" required=false %}
-The type of contact \('Personal'  \| 'Business'\) and Name
+Full name of contact \('Personal'  \| 'Business'\)
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
