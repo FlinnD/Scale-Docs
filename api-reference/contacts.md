@@ -28,38 +28,29 @@ When creating contact, please note that the following general rules should be ap
 
 Contact objects will vary depending on type \(currency, business/personal etc\). A GBP example is provided here.
 
-## Contact \(UK\)
+## Contact
 
 ### Attributes
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| contactId | Unique identifier for the object. | string |
-| type | Contact type: `private` or `business` | string |
-| accountHolderName | Full name of the contact: `private` | string |
+| id | Unique identifier for the object. | string |
+| type | Contact type: `individual` or `business` | string |
+| accountHolderName | Full name of the contact: `individual` | string |
 | businessName | Full name of the contact: `business` | string |
 | details.accountNumber | Bank account number \(UK\) | string |
 | details.sortCode | Sort code \(UK\) | string |
 | address.line1 | Optional address of the contact.  | string |
 | address.line2 | Optional address of the contact. | string |
 | address.city | Optional city, district, town or village of the contact. | string |
-| address.country | Optional two-letter country code of the contact. | 2-letter ISO code |
+| address.country | Optional two-letter country code of the contact. | string - ISO 3166 country |
 | details.bankName | Name of the contact's bank. | string |
-| details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | 2-letter ISO code |
-| details.currency | Three-letter ISO code for the currency of the contact's bank account. | 3-letter ISO code |
+| details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | string - ISO 3166 country |
+| details.currency | Three-letter ISO code for the currency of the contact's bank account. | string - ISO 4217 currency |
 
-#### Example fields for UK \(GBP\) contact request:
+## API Reference
 
-| Field | Description | Format |
-| :--- | :--- | :--- |
-| accountHolderName | Full name of the individual | string |
-| businessName | Full name of the business | string |
-| type | Contact type: `private` or `business` | string |
-| details.accountNumber | Bank account number | string |
-| details.sortCode | Sort code | string |
-| details.currency | Three-letter ISO code for the currency of the contact's bank account. | string |
-
-{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts/add" %}
+{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts" %}
 {% api-method-summary %}
 Create contact
 {% endapi-method-summary %}
@@ -70,29 +61,31 @@ Create contact
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
 {% api-method-body-parameters %}
+{% api-method-parameter name="address" type="string" required=false %}
+Optional contact address.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="businessName" type="string" required=false %}
+Required if type is 'business'.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="type" type="string" required=true %}
+Either 'individual' or 'business'.
+{% endapi-method-parameter %}
+
 {% api-method-parameter name="details" type="object" required=true %}
-The account details of the contact
+The account details of the contact.
 {% endapi-method-parameter %}
 
-{% api-method-parameter name="currency" type="string" required=true %}
-The target currency of contact's account
-{% endapi-method-parameter %}
-
-{% api-method-parameter name="accountHolderName" type="string" required=true %}
-Full name of contact, 'Personal'.
+{% api-method-parameter name="accountHolderName" type="string" required=false %}
+Required if type is 'individual'.
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
 
 {% api-method-response %}
-{% api-method-response-example httpCode=200 %}
+{% api-method-response-example httpCode=201 %}
 {% api-method-response-example-description %}
 
 {% endapi-method-response-example-description %}
@@ -105,7 +98,7 @@ Full name of contact, 'Personal'.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/list/:id" %}
+{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Retrieve contact by ID
 {% endapi-method-summary %}
@@ -116,15 +109,9 @@ Get contact info by ID.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
 {% api-method-query-parameters %}
 {% api-method-parameter name="contactId" type="string" required=false %}
-The id of the contact you are requesting
+Contact ID to retrieve.
 {% endapi-method-parameter %}
 {% endapi-method-query-parameters %}
 {% endapi-method-request %}
@@ -135,15 +122,24 @@ The id of the contact you are requesting
 
 {% endapi-method-response-example-description %}
 
-```
-
+```javascript
+{
+    "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+    "type": "individual",
+    "accountHolderName": "Bob Smith",
+    "details": {
+        "accountNumber": "12345678",
+        "sortCode": "112233",
+        "currency": "GBP"
+    }
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts/update" %}
+{% api-method method="put" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Update contact
 {% endapi-method-summary %}
@@ -154,27 +150,19 @@ Update contact information.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-
+{% api-method-path-parameters %}
+{% api-method-parameter name="contactId" type="string" required=true %}
+Contact ID to update.
 {% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% endapi-method-path-parameters %}
 
 {% api-method-body-parameters %}
-{% api-method-parameter name="contactId" type="string" required=true %}
-The Id of the contact to update
-{% endapi-method-parameter %}
-
 {% api-method-parameter name="details" type="object" required=false %}
-The account details of the contact
+The account details of the contact.
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="currency" type="string" required=false %}
-The target currency of the contact's account
-{% endapi-method-parameter %}
-
-{% api-method-parameter name="recipient" type="object" required=false %}
-Full name of contact \('Personal'  \| 'Business'\)
+The target currency of the contact's account.
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
@@ -193,7 +181,7 @@ Full name of contact \('Personal'  \| 'Business'\)
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="delete" host="https://app.helloscale.co" path="/v1/contacts/delete" %}
+{% api-method method="delete" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Delete contact
 {% endapi-method-summary %}
@@ -204,15 +192,9 @@ Deletes a contact.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
 {% api-method-query-parameters %}
-{% api-method-parameter name="contactId" type="string" required=false %}
-The id of the contact to delete.
+{% api-method-parameter name="contactId" type="string" required=true %}
+Contact ID to delete.
 {% endapi-method-parameter %}
 {% endapi-method-query-parameters %}
 {% endapi-method-request %}
@@ -231,7 +213,7 @@ The id of the contact to delete.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/list/all" %}
+{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts" %}
 {% api-method-summary %}
 List contacts
 {% endapi-method-summary %}
@@ -242,12 +224,6 @@ Fetch a list of all contacts.
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
 
 {% api-method-response %}
 {% api-method-response-example httpCode=200 %}
@@ -255,8 +231,32 @@ Fetch a list of all contacts.
 
 {% endapi-method-response-example-description %}
 
-```
-
+```javascript
+{
+    "count": 2,
+    "items": [
+        {
+            "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+            "type": "individual",
+            "accountHolderName": "Bob Smith",
+            "details": {
+                "accountNumber": "12345678",
+                "sortCode": "112233",
+                "currency": "GBP"
+            }
+        },
+        {
+            "id": "e12a82a9-441d-4050-8edd-3d102b5d0dc2",
+            "type": "business",
+            "businessName": "Shoply Ltd",
+            "details": {
+                "accountNumber": "12345678",
+                "sortCode": "112233",
+                "currency": "GBP"
+            }
+        }
+    ]
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}

@@ -23,7 +23,7 @@ Funds are sent via Open Banking to a Scale wallet associated with your account, 
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| bulkPaymentId | ID of this bulk payment | string |
+| id | ID of this bulk payment | string |
 | items | Array of line items which belong to this bulk payment. | [BulkPaymentItem\[\]](bulk-payments.md#bulkpaymentitem) |
 | createdAt | UTC timestamp of when the bulk payment was created. | ISO 8601 date |
 | status | Current status of the bulk payment. | [PaymentStatus](bulk-payments.md#payment-status) |
@@ -41,7 +41,7 @@ Funds are sent via Open Banking to a Scale wallet associated with your account, 
 
 ## API Reference
 
-{% api-method method="post" host="https://api.helloscale.co" path="/v1/bulk-payments/" %}
+{% api-method method="post" host="https://api.helloscale.co" path="/v1/bulk-payments" %}
 {% api-method-summary %}
 Create Bulk Payment
 {% endapi-method-summary %}
@@ -123,11 +123,11 @@ ID of the Bulk Payment.
     "approvers": [
         "5853cda5-1013-495c-92d7-9b978a903fae"
     ],
-    "bulkPaymentId": "60e47218-6e0c-40b8-b3d3-66421a82af59",
+    "id": "60e47218-6e0c-40b8-b3d3-66421a82af59",
     "createdAt": "2020-04-15T15:25:24+0000"
     "items": [
         {
-            "bulkPaymentItemId": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
+            "id": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
             "recipientContactId": "05d88b15-2075-4cbe-8473-57111d745769",
             "currency": "GBP",
             "amount": 45124
@@ -154,7 +154,7 @@ Bulk Payment ID not found.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://api.helloscale.co" path="/v1/bulk-payments/" %}
+{% api-method method="get" host="https://api.helloscale.co" path="/v1/bulk-payments" %}
 {% api-method-summary %}
 List bulk payments
 {% endapi-method-summary %}
@@ -194,7 +194,7 @@ Filter results to be after a specified date.
             "approvers": [
                 "5853cda5-1013-495c-92d7-9b978a903fae"
             ],
-            "bulkPaymentId": "60e47218-6e0c-40b8-b3d3-66421a82af59",
+            "id": "60e47218-6e0c-40b8-b3d3-66421a82af59",
             "createdAt": "2020-04-15T15:25:24+0000"
             "itemCount": 1,
             "name": "April-W3",
@@ -204,7 +204,7 @@ Filter results to be after a specified date.
             "approvers": [
                 "5853cda5-1013-495c-92d7-9b978a903fae"
             ],
-            "bulkPaymentId": "87537bb1-814c-437a-a473-f80ceeaa3bac",
+            "id": "87537bb1-814c-437a-a473-f80ceeaa3bac",
             "createdAt": "2020-04-8T12:16:52+0000"
             "itemCount": 3,
             "name": "April-W2",
@@ -288,7 +288,7 @@ ID of the Bulk Payment.
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| bulkPaymentItemId | ID for this line item. | string |
+| id | ID for this line item. | string |
 | recipientContactId | Contact ID of the recipient. | string |
 | currency | Currency of the payment | string - ISO 4217 currency |
 | amount | Amount to send this recipient. | number |
