@@ -50,7 +50,7 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 
 ## API Reference
 
-{% api-method method="post" host="https://app.helloscale.co" path="/v1/contacts" %}
+{% api-method method="post" host="https://api.helloscale.co" path="/v1/contacts" %}
 {% api-method-summary %}
 Create contact
 {% endapi-method-summary %}
@@ -98,7 +98,7 @@ Required if type is 'individual'.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
+{% api-method method="get" host="https://api.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Retrieve contact by ID
 {% endapi-method-summary %}
@@ -139,7 +139,7 @@ Contact ID to retrieve.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="put" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
+{% api-method method="put" host="https://api.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Update contact
 {% endapi-method-summary %}
@@ -181,7 +181,7 @@ The target currency of the contact's account.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="delete" host="https://app.helloscale.co" path="/v1/contacts/:contactId" %}
+{% api-method method="delete" host="https://api.helloscale.co" path="/v1/contacts/:contactId" %}
 {% api-method-summary %}
 Delete contact
 {% endapi-method-summary %}
@@ -213,7 +213,7 @@ Contact ID to delete.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://app.helloscale.co" path="/v1/contacts" %}
+{% api-method method="get" host="https://api.helloscale.co" path="/v1/contacts" %}
 {% api-method-summary %}
 List contacts
 {% endapi-method-summary %}
