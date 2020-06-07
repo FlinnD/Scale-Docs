@@ -27,12 +27,12 @@ Approval permissions for bulk payments are configured in the Scale dashboard. Bu
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| id | ID of this bulk payment | string |
+| id | ID of this bulk payment. | string |
 | items | Array of line items which belong to this bulk payment. | [BulkPaymentItem\[\]](bulk-payments.md#bulkpaymentitem) |
 | createdAt | UTC timestamp when the bulk payment was created. | ISO 8601 date |
 | status | Current status of the bulk payment. | [PaymentStatus](bulk-payments.md#payment-status) |
 | approvers | List of user IDs responsible for approving this payment. | string\[\] |
-| name | Name of the bulk payment | string |
+| name | Name of the bulk payment. | string |
 
 #### Payment Status
 
@@ -299,7 +299,23 @@ ID of the Bulk Payment.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+    "approvers": [
+        "5853cda5-1013-495c-92d7-9b978a903fae"
+    ],
+    "id": "60e47218-6e0c-40b8-b3d3-66421a82af59",
+    "createdAt": "2020-04-15T15:25:24+0000"
+    "items": [
+        {
+            "id": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
+            "recipientContactId": "05d88b15-2075-4cbe-8473-57111d745769",
+            "currency": "GBP",
+            "amount": 45124
+        }
+    ],
+    "name": "April-W3",
+    "status": "submitted"
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -312,7 +328,7 @@ ID of the Bulk Payment.
 
 | Field | Description | Format |
 | :--- | :--- | :--- |
-| id | ID for this line item. | string |
+| id | ID of this item. | string |
 | recipientContactId | Contact ID of the recipient. | string |
 | currency | Currency of the payment | string - ISO 4217 currency |
 | amount | Amount to send this recipient. | number |
@@ -356,7 +372,12 @@ ID of the contact recipient.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+            "id": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
+            "recipientContactId": "05d88b15-2075-4cbe-8473-57111d745769",
+            "currency": "GBP",
+            "amount": 45124
+        }
 ```
 {% endapi-method-response-example %}
 
@@ -418,7 +439,11 @@ ID of the Bulk Payment.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+  "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+  "object": "bulkPaymentItem",
+  "deleted": true
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
