@@ -7,6 +7,7 @@
 * [Authentication](general/authentication.md)
 * [Idempotency](general/idempotency.md)
 * [Webhooks](general/webhooks.md)
+* [Errors](general/errors.md)
 
 ## API Reference
 
