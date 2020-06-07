@@ -6,11 +6,12 @@ Contact is an individual or business that is the beneficiary of a payment.
 
 Bank account details vary widely and depend on the target currency and country of the account. For example:
 
-* _**UK GBP account — sort code and account number**_
-* _**BGN, CHF, DKK, EUR, GEL, GBP, NOK, PKR, PLN, RON, SEK — IBAN**_
-* _**USD — routing number, account number, account type**_
-* _**INR — IFSC code, account number**_
-* _**etc.**_
+* UK GBP accounts — sort code and account number
+* US USD accounts — routing number, account number
+* IBAN countries - IBAN and bic
+* SWIFT - account number and bic
+
+The example below is for a UK GBP account.
 
 When creating contact, please note that the following general rules should be applied:
 
@@ -36,7 +37,7 @@ When creating contact, please note that the following general rules should be ap
 | address.country | Optional two-letter country code of the contact. | string - ISO 3166 country |
 | details.bankName | Name of the contact's bank. | string |
 | details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | string - ISO 3166 country |
-| ~~details~~.currency | Three-letter ISO code for the currency of the contact's bank account. | string - ISO 4217 currency |
+| details.currency | Three-letter ISO code for the currency of the contact's bank account. | string - ISO 4217 currency |
 
 ## API Reference
 
@@ -81,7 +82,16 @@ Required if type is 'individual'.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+    "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+    "type": "business",
+    "businessName": "Acme Ltd",
+    "details": {
+        "accountNumber": "12345678",
+        "sortCode": "112233",
+        "currency": "GBP"
+    }
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -164,7 +174,16 @@ The target currency of the contact's account.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+    "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+    "type": "individual",
+    "accountHolderName": "Robert Smith",
+    "details": {
+        "accountNumber": "12345678",
+        "sortCode": "112233",
+        "currency": "GBP"
+    }
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -196,7 +215,11 @@ Contact ID to delete.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+  "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+  "object": "contact",
+  "deleted": true
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -228,7 +251,7 @@ Fetch a list of all contacts.
         {
             "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
             "type": "individual",
-            "accountHolderName": "Bob Smith",
+            "individualName": "Bob Smith",
             "details": {
                 "accountNumber": "12345678",
                 "sortCode": "112233",
@@ -238,7 +261,7 @@ Fetch a list of all contacts.
         {
             "id": "e12a82a9-441d-4050-8edd-3d102b5d0dc2",
             "type": "business",
-            "businessName": "Shoply Ltd",
+            "businessName": "Acme Ltd",
             "details": {
                 "accountNumber": "12345678",
                 "sortCode": "112233",

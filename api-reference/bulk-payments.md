@@ -2,9 +2,9 @@
 
 A Bulk Payment represents a group of payments to contacts that are registered in Scale. Grouping payments in this way condenses many complex payment processes into a single approval and execution step.
 
-Bulk Payments consist of multiple payment items, where each payment item represents a transfer to a contact with the amount and currency of your choice.
+Bulk Payments consist of multiple payment items, where each payment item represents a transfer to a contact in the amount and currency specified.
 
-Bulk Payments can require approval by designated individuals before being able to be executed. Once approved, users with execution permissions can authorise the payment to be sent, providing Open Banking based payment authorisation with your connected account as necessary.
+Bulk Payments require approval by designated individuals before being able to be executed. Once approved, users with execution permissions can authorise the payment to be sent, providing Open Banking based payment authorisation with your connected account as necessary.
 
 Funds are sent via Open Banking to Scale, which in turn disburses funds according to the configuration provided in the Bulk Payment.
 
@@ -19,7 +19,7 @@ Funds are sent via Open Banking to Scale, which in turn disburses funds accordin
 
 ### Approval Flows
 
-**Approval permissions for bulk payments are configured in the Scale dashboard. Bulk payments cannot be added without at least one approver and must conform to configured rules otherwise they will be rejected by the API. E.g. ....Neg: Jill is not an approver  Pos: Bob, Mark, Jill are all approvers \(in different divisions\) the API can specify which approver is required.** 
+Approval permissions for bulk payments are configured in the Scale dashboard. Bulk payments cannot be added without at least one approver and must conform to configured rules otherwise they will be rejected by the API.
 
 ## BulkPayment
 
@@ -78,7 +78,23 @@ The name of the Bulk Payment
 {% endapi-method-response-example-description %}
 
 ```javascript
-
+{
+    "approvers": [
+        "5853cda5-1013-495c-92d7-9b978a903fae"
+    ],
+    "id": "60e47218-6e0c-40b8-b3d3-66421a82af59",
+    "createdAt": "2020-04-15T15:25:24+0000"
+    "items": [
+        {
+            "id": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
+            "ContactId": "05d88b15-2075-4cbe-8473-57111d745769",
+            "currency": "GBP",
+            "amount": 45124
+        }
+    ],
+    "name": "April-W3",
+    "status": "draft"
+}
 ```
 {% endapi-method-response-example %}
 
@@ -132,7 +148,7 @@ ID of the Bulk Payment.
     "items": [
         {
             "id": "1fbd178d-fe9e-4622-8634-fbd39370dad1",
-            "recipientContactId": "05d88b15-2075-4cbe-8473-57111d745769",
+            "ContactId": "05d88b15-2075-4cbe-8473-57111d745769",
             "currency": "GBP",
             "amount": 45124
         }
@@ -247,7 +263,11 @@ ID of the Bulk Payment.
 {% endapi-method-response-example-description %}
 
 ```
-
+{
+  "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
+  "object": "bulkPayment",
+  "deleted": true
+}
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
