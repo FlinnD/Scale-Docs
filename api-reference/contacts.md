@@ -1,32 +1,22 @@
 # Contacts
 
-Contact is a person or business that is the ultimate beneficiary of a payment.
+Contact is an individual or business that is the beneficiary of a payment.
 
-Contact data includes three data blocks.
+### Bank account format
 
-#### 1\) General Data <a id="recipient-accounts-create-1-general-data"></a>
+Bank account details vary widely and depend on the target currency and country of the account. For example:
 
-* Contact full name
-* Legal type \(private/business\)
-* Currency
+* _**UK GBP account — sort code and account number**_
+* _**BGN, CHF, DKK, EUR, GEL, GBP, NOK, PKR, PLN, RON, SEK — IBAN**_
+* _**USD — routing number, account number, account type**_
+* _**INR — IFSC code, account number**_
+* _**etc.**_
 
-#### 2\) Bank account data <a id="recipient-accounts-create-2-bank-account-data"></a>
+When creating contact, please note that the following general rules should be applied:
 
-Bank account details vary widely and depend on the target currency of the payment. For example:
-
-* GBP — sort code and account number
-* BGN, CHF, DKK, EUR, GEL, GBP, NOK, PKR, PLN, RON, SEK — IBAN
-* USD — routing number, account number, account type
-* INR — IFSC code, account number
-* etc.
-
-When creating contact, please note that the following general rules should be applied to the _recipients_ field:
-
-* Private contacts must have full names. You must include both a first and last name, and both should be more than one character. Acceptable characters include:`[A-Za-zÀ-ÖØ-öø-ÿ].`
+* Individual contacts must have full names. You must include both a first and last name, and both should be more than one character. Acceptable characters include:`[A-Za-zÀ-ÖØ-öø-ÿ].`
 * Business names must be in full, but can be just a single name. The full name cannot be just a single character but can be made up of a set of single characters. Business names can include numbers and special characters.
 * In general the following regex describes permitted characters for a name: `[0-9A-Za-zÀ-ÖØ-öø-ÿ-_()'*,.\s]`.
-
-Contact objects will vary depending on type \(currency, business/personal etc\). A GBP example is provided here.
 
 ## Contact
 
@@ -35,9 +25,9 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 | Field | Description | Format |
 | :--- | :--- | :--- |
 | id | Unique identifier for the object. | string |
-| type | Contact type: `individual` or `business` | string |
-| accountHolderName | Full name of the contact: `individual` | string |
-| businessName | Full name of the contact: `business` | string |
+| type | Contact type: `individual` or `business`. | string |
+| individualName | Full name of the contact: `individual`. Required if `type` is set to `individual`. | string |
+| businessName | Full name of the contact: `business`. Required if `type` is set to `business`. | string |
 | details.accountNumber | Bank account number \(UK\) | string |
 | details.sortCode | Sort code \(UK\) | string |
 | address.line1 | Optional address of the contact.  | string |
@@ -46,7 +36,7 @@ Contact objects will vary depending on type \(currency, business/personal etc\).
 | address.country | Optional two-letter country code of the contact. | string - ISO 3166 country |
 | details.bankName | Name of the contact's bank. | string |
 | details.bankCountry | Two-letter ISO code representing the country the contact's bank account is located. | string - ISO 3166 country |
-| details.currency | Three-letter ISO code for the currency of the contact's bank account. | string - ISO 4217 currency |
+| ~~details~~.currency | Three-letter ISO code for the currency of the contact's bank account. | string - ISO 4217 currency |
 
 ## API Reference
 
@@ -78,7 +68,7 @@ Either 'individual' or 'business'.
 The account details of the contact.
 {% endapi-method-parameter %}
 
-{% api-method-parameter name="accountHolderName" type="string" required=false %}
+{% api-method-parameter name="individualName" type="string" required=false %}
 Required if type is 'individual'.
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}

@@ -6,7 +6,7 @@ Bulk Payments consist of multiple payment items, where each payment item represe
 
 Bulk Payments can require approval by designated individuals before being able to be executed. Once approved, users with execution permissions can authorise the payment to be sent, providing Open Banking based payment authorisation with your connected account as necessary.
 
-Funds are sent via Open Banking to a Scale wallet associated with your account, which in turn disburses funds according to the configuration provided in the Bulk Payment.
+Funds are sent via Open Banking to Scale, which in turn disburses funds according to the configuration provided in the Bulk Payment.
 
 ### Usage
 
@@ -17,6 +17,10 @@ Funds are sent via Open Banking to a Scale wallet associated with your account, 
 5. Execute the Bulk Payment by initiating an Open Banking payment
 6. Confirm the results of the Bulk Payment
 
+### Approval Flows
+
+**Approval permissions for bulk payments are configured in the Scale dashboard. Bulk payments cannot be added without at least one approver and must conform to configured rules otherwise they will be rejected by the API. E.g. ....Neg: Jill is not an approver  Pos: Bob, Mark, Jill are all approvers \(in different divisions\) the API can specify which approver is required.** 
+
 ## BulkPayment
 
 ### Attributes
@@ -25,7 +29,7 @@ Funds are sent via Open Banking to a Scale wallet associated with your account, 
 | :--- | :--- | :--- |
 | id | ID of this bulk payment | string |
 | items | Array of line items which belong to this bulk payment. | [BulkPaymentItem\[\]](bulk-payments.md#bulkpaymentitem) |
-| createdAt | UTC timestamp of when the bulk payment was created. | ISO 8601 date |
+| createdAt | UTC timestamp when the bulk payment was created. | ISO 8601 date |
 | status | Current status of the bulk payment. | [PaymentStatus](bulk-payments.md#payment-status) |
 | approvers | List of user IDs responsible for approving this payment. | string\[\] |
 | name | Name of the bulk payment | string |
