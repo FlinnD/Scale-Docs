@@ -126,7 +126,7 @@ Contact ID to retrieve.
 {
     "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
     "type": "individual",
-    "accountHolderName": "Bob Smith",
+    "individualName": "Bob Smith",
     "details": {
         "accountNumber": "12345678",
         "sortCode": "112233",
@@ -177,7 +177,7 @@ The target currency of the contact's account.
 {
     "id": "4b88c59c-1f3f-4e99-af82-4eef483ba981",
     "type": "individual",
-    "accountHolderName": "Robert Smith",
+    "individualName": "Robert Smith",
     "details": {
         "accountNumber": "12345678",
         "sortCode": "112233",
